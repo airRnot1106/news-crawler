@@ -1,6 +1,6 @@
 import { createBrowser } from '@/server/libs/puppeteer';
-import { NHKArticle } from '@/server/types/nhk';
-import { Ok } from '@/type';
+import { NHKArticleInfo } from '@/server/types/nhk';
+import { Ok, Result } from '@/type';
 import { zValidator } from '@hono/zod-validator';
 import { Hono } from 'hono';
 import { z } from 'zod';
@@ -13,7 +13,7 @@ export const articles = new Hono().basePath('/articles').get(
       category_url: z.string().url(),
     }),
   ),
-  async (c) => {
+  async (c): Promise<ReturnType<typeof c.json<Result<NHKArticleInfo[]>>>> => {
     const { category_url: url } = c.req.valid('query');
 
     const browser = await createBrowser();
@@ -78,7 +78,7 @@ export const articles = new Hono().basePath('/articles').get(
               thumbnail,
             };
           })
-          .filter((article): article is NHKArticle => !!article),
+          .filter((article): article is NHKArticleInfo => !!article),
     );
 
     await browser.close();
@@ -86,6 +86,6 @@ export const articles = new Hono().basePath('/articles').get(
     return c.json({
       ok: true,
       value: articles,
-    } satisfies Ok<NHKArticle[]>);
+    });
   },
 );

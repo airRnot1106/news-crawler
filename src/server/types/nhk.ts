@@ -4,7 +4,7 @@ export type NHKCategory = {
   url: string;
 };
 
-export type NHKArticle = {
+export type NHKArticleInfo = {
   title: string;
   date: string;
   url: string;
@@ -13,4 +13,20 @@ export type NHKArticle = {
     url: string;
   } | null;
   thumbnail: string;
+};
+
+export type NHKArticleElement =
+  | {
+      type: 'paragraph';
+      text: string;
+    }
+  | {
+      type: 'image';
+      src: string;
+    };
+
+export type NHKArticle = {
+  info: NHKArticleInfo;
+  elements: NHKArticleElement[];
+  raw: string;
 };
