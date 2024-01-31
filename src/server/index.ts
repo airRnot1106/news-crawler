@@ -1,13 +1,11 @@
+import { api } from '@/server/api/route';
 import { serve } from '@hono/node-server';
 import { Hono } from 'hono';
 
-const app = new Hono();
-
-app.get('/', (c) => {
-  return c.text('Hello Hono!');
-});
+const app = new Hono().route('/', api);
 
 const port = 3000;
+// biome-ignore lint/suspicious/noConsoleLog: <explanation>
 console.log(`Server is running on port ${port}`);
 
 serve({
