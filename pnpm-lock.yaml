@@ -8,9 +8,15 @@ dependencies:
   '@hono/node-server':
     specifier: ^1.7.0
     version: 1.7.0
+  '@hono/zod-validator':
+    specifier: ^0.1.11
+    version: 0.1.11(hono@3.12.8)(zod@3.22.4)
   hono:
     specifier: ^3.12.8
     version: 3.12.8
+  zod:
+    specifier: ^3.22.4
+    version: 3.22.4
 
 devDependencies:
   '@tsconfig/strictest':
@@ -225,6 +231,16 @@ packages:
     engines: {node: '>=18.14.1'}
     dev: false
 
+  /@hono/zod-validator@0.1.11(hono@3.12.8)(zod@3.22.4):
+    resolution: {integrity: sha512-PQXeHUP0+36qpRt8yfeD7N2jbK3ETlGvSN6dMof/HwUC/APRokQRjpXZm4rrlG71Ft0aWE01+Bm4XejqPie5Uw==}
+    peerDependencies:
+      hono: '>=3.9.0'
+      zod: ^3.19.1
+    dependencies:
+      hono: 3.12.8
+      zod: 3.22.4
+    dev: false
+
   /@tsconfig/strictest@2.0.2:
     resolution: {integrity: sha512-jt4jIsWKvUvuY6adJnQJlb/UR7DdjC8CjHI/OaSQruj2yX9/K6+KOvDt/vD6udqos/FUk5Op66CvYT7TBLYO5Q==}
     dev: true
@@ -308,3 +324,7 @@ packages:
     optionalDependencies:
       fsevents: 2.3.3
     dev: true
+
+  /zod@3.22.4:
+    resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
+    dev: false
