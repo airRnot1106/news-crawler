@@ -1,5 +1,6 @@
 import { createBrowser } from '@/server/libs/puppeteer';
-import { NHKCategory } from '@/server/types/category';
+import { NHKCategory } from '@/server/types/nhk';
+import { Ok } from '@/type';
 import { Hono } from 'hono';
 
 export const category = new Hono().basePath('/category').get('/', async (c) => {
@@ -38,5 +39,5 @@ export const category = new Hono().basePath('/category').get('/', async (c) => {
   return c.json({
     ok: true,
     value: categories,
-  });
+  } satisfies Ok<NHKCategory[]>);
 });
