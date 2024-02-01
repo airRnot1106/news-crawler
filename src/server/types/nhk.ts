@@ -29,4 +29,6 @@ export type NHKArticle = {
   info: NHKArticleInfo;
   elements: NHKArticleElement[];
   raw: string;
+  source: 'nhk';
+  media: 'nhk';
 };

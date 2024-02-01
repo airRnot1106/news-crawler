@@ -156,6 +156,8 @@ export const article = new Hono().basePath('/article').get(
           info,
           elements,
           raw,
+          source: 'nhk',
+          media: 'nhk',
         },
       },
       200,
