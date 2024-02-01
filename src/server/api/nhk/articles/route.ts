@@ -1,6 +1,6 @@
 import { createBrowser } from '@/server/libs/puppeteer';
 import { NHKArticleInfo } from '@/server/types/nhk';
-import { Ok, Result } from '@/type';
+import { Result } from '@/type';
 import { zValidator } from '@hono/zod-validator';
 import { Hono } from 'hono';
 import { z } from 'zod';
@@ -83,9 +83,12 @@ export const articles = new Hono().basePath('/articles').get(
 
     await browser.close();
 
-    return c.json({
-      ok: true,
-      value: articles,
-    });
+    return c.json(
+      {
+        ok: true,
+        value: articles,
+      },
+      200,
+    );
   },
 );

@@ -22,18 +22,24 @@ export const article = new Hono().basePath('/article').get(
 
     const contents = await page.$('section.module--detail-content');
     if (!contents) {
-      return c.json({
-        ok: false,
-        error: 'contents is null',
-      });
+      return c.json(
+        {
+          ok: false,
+          error: 'contents is null',
+        },
+        500,
+      );
     }
 
     const header = await contents.$('header');
     if (!header) {
-      return c.json({
-        ok: false,
-        error: 'header is null',
-      });
+      return c.json(
+        {
+          ok: false,
+          error: 'header is null',
+        },
+        500,
+      );
     }
 
     const thumbnail = await header.$eval(
@@ -49,10 +55,13 @@ export const article = new Hono().basePath('/article').get(
     );
 
     if (!title || !date) {
-      return c.json({
-        ok: false,
-        error: 'title or date is null',
-      });
+      return c.json(
+        {
+          ok: false,
+          error: 'title or date is null',
+        },
+        500,
+      );
     }
 
     const word = await header.$eval('a.i-word', (elm: HTMLAnchorElement) => {
@@ -77,10 +86,13 @@ export const article = new Hono().basePath('/article').get(
 
     const main = await contents.$('.content--detail-main');
     if (!main) {
-      return c.json({
-        ok: false,
-        error: 'main is null',
-      });
+      return c.json(
+        {
+          ok: false,
+          error: 'main is null',
+        },
+        500,
+      );
     }
 
     const elements = await main.$$eval('p,img', (elms) =>
@@ -126,21 +138,27 @@ export const article = new Hono().basePath('/article').get(
     });
 
     if (!raw) {
-      return c.json({
-        ok: false,
-        error: 'raw is null',
-      });
+      return c.json(
+        {
+          ok: false,
+          error: 'raw is null',
+        },
+        500,
+      );
     }
 
     await browser.close();
 
-    return c.json({
-      ok: true,
-      value: {
-        info,
-        elements,
-        raw,
+    return c.json(
+      {
+        ok: true,
+        value: {
+          info,
+          elements,
+          raw,
+        },
       },
-    });
+      200,
+    );
   },
 );

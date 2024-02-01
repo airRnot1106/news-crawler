@@ -1,6 +1,6 @@
 import { createBrowser } from '@/server/libs/puppeteer';
 import { NHKCategory } from '@/server/types/nhk';
-import { Ok, Result } from '@/type';
+import { Result } from '@/type';
 import { Hono } from 'hono';
 
 export const category = new Hono()
@@ -40,9 +40,12 @@ export const category = new Hono()
 
       await browser.close();
 
-      return c.json({
-        ok: true,
-        value: categories,
-      });
+      return c.json(
+        {
+          ok: true,
+          value: categories,
+        },
+        200,
+      );
     },
   );
