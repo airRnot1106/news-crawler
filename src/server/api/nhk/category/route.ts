@@ -12,7 +12,27 @@ export const category = new Hono()
 
       const browser = await createBrowser();
       const page = await browser.newPage();
-      await page.goto(url);
+
+      try {
+        await page.goto(url);
+      } catch (e) {
+        if (e instanceof Error) {
+          return c.json(
+            {
+              ok: false,
+              error: e.message,
+            },
+            500,
+          );
+        }
+        return c.json(
+          {
+            ok: false,
+            error: 'unknown error',
+          },
+          500,
+        );
+      }
 
       const categories = await page.$$eval('ul.nav-ex > li > a', (anchors) =>
         anchors

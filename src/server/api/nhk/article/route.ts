@@ -18,18 +18,23 @@ export const article = new Hono().basePath('/article').get(
 
     const browser = await createBrowser();
     const page = await browser.newPage();
-    const e = await page.goto(url).catch((e) => {
-      if (e instanceof Error) {
-        return e;
-      }
-      return;
-    });
 
-    if (e instanceof Error) {
+    try {
+      await page.goto(url);
+    } catch (e) {
+      if (e instanceof Error) {
+        return c.json(
+          {
+            ok: false,
+            error: e.message,
+          },
+          500,
+        );
+      }
       return c.json(
         {
           ok: false,
-          error: e.message,
+          error: 'unknown error',
         },
         500,
       );
