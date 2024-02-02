@@ -58,12 +58,9 @@ export const articles = new Hono().basePath('/articles').get(
     const articles = (
       await page.$$eval('li.newsFeed_item', (elms) =>
         elms.map((elm) => {
-          const thumbnail = elm.querySelector<HTMLImageElement>(
-            '.newsFeed_item_thumbnail img',
-          )?.src;
-          if (!thumbnail) {
-            return;
-          }
+          const thumbnail =
+            elm.querySelector<HTMLImageElement>('.newsFeed_item_thumbnail img')
+              ?.src ?? null;
 
           const title = elm
             .querySelector('.newsFeed_item_title')
