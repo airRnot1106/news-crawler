@@ -3,6 +3,7 @@ import { serve } from '@hono/node-server';
 import { Hono } from 'hono';
 
 const app = new Hono().route('/', api);
+export type AppType = typeof app;
 
 const port = 3000;
 // biome-ignore lint/suspicious/noConsoleLog: <explanation>
