@@ -1,5 +1,5 @@
 import { createBrowser } from '@/server/libs/puppeteer';
-import { NHKArticle } from '@/server/types/nhk';
+import { NHKArticle, NHKArticleInfo } from '@/server/types/nhk';
 import { Result } from '@/type';
 import { zValidator } from '@hono/zod-validator';
 import { Hono } from 'hono';
@@ -102,7 +102,9 @@ export const article = new Hono().basePath('/article').get(
       url,
       word,
       thumbnail,
-    };
+      source: 'nhk',
+      media: 'nhk',
+    } as const satisfies NHKArticleInfo;
 
     const main = await contents.$('.content--detail-main');
     if (!main) {
@@ -176,8 +178,6 @@ export const article = new Hono().basePath('/article').get(
           info,
           elements,
           raw,
-          source: 'nhk',
-          media: 'nhk',
         },
       },
       200,

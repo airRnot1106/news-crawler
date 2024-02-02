@@ -13,6 +13,8 @@ export type NHKArticleInfo = {
     url: string;
   } | null;
   thumbnail: string;
+  source: 'nhk';
+  media: 'nhk';
 };
 
 export type NHKArticleElement =
@@ -29,6 +31,4 @@ export type NHKArticle = {
   info: NHKArticleInfo;
   elements: NHKArticleElement[];
   raw: string;
-  source: 'nhk';
-  media: 'nhk';
 };

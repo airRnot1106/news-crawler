@@ -58,7 +58,7 @@ export const articles = new Hono().basePath('/articles').get(
       '#main article.module--list-items > section ul > li',
       (elms: HTMLElement[]) =>
         elms
-          .map((elm) => {
+          .map((elm): NHKArticleInfo | undefined => {
             const thumbnail =
               elm.querySelector<HTMLAnchorElement>('dt > a')?.href;
             if (!thumbnail) {
@@ -89,6 +89,9 @@ export const articles = new Hono().basePath('/articles').get(
 
             const articleUrl =
               elm.querySelector<HTMLAnchorElement>('dd > a')?.href;
+            if (!articleUrl) {
+              return;
+            }
 
             return {
               title,
@@ -96,6 +99,8 @@ export const articles = new Hono().basePath('/articles').get(
               url: articleUrl,
               word,
               thumbnail,
+              source: 'nhk',
+              media: 'nhk',
             };
           })
           .filter((article): article is NHKArticleInfo => !!article),
