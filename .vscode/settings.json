@@ -17,5 +17,5 @@
     "quickfix.biome": "explicit",
     "source.organizeImports.biome": "explicit"
   },
-  "cSpell.words": ["datetime", "hono"]
+  "cSpell.words": ["datetime", "hono", "openapi"]
 }
