@@ -43,69 +43,7 @@ Web API for crawling articles from news sites.
 
 ## API
 
-### NHK
-
-#### GET /category
-
-Get categories.
-
-##### Endpoint
-
-```http
-GET /api/nhk/category
-```
-
-#### GET /articles
-
-Get a list of articles in a category.
-
-##### Endpoint
-
-```http
-GET /api/nhk/articles?category_url=${category_url}
-```
-
-#### GET /article
-
-Get article contents.
-
-##### Endpoint
-
-```http
-GET /api/nhk/article?article_url=${article_url}
-```
-
-### Yahoo
-
-#### GET /category
-
-Get categories.
-
-##### Endpoint
-
-```http
-GET /api/yahoo/category
-```
-
-#### GET /articles
-
-Get a list of articles in a category.
-
-##### Endpoint
-
-```http
-GET /api/yahoo/articles?category_url=${category_url}
-```
-
-#### GET /article
-
-Get article contents.
-
-##### Endpoint
-
-```http
-GET /api/yahoo/article?article_url=${article_url}
-```
+See [API Documentation](https://airrnot1106.github.io/news-crawler/).
 
 ## License
 
