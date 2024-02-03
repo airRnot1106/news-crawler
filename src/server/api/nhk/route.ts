@@ -1,10 +1,9 @@
 import { article } from '@/server/api/nhk/article/route';
 import { articles } from '@/server/api/nhk/articles/route';
 import { category } from '@/server/api/nhk/category/route';
-import { Hono } from 'hono';
+import { OpenAPIHono } from '@hono/zod-openapi';
 
-export const nhk = new Hono()
-  .basePath('/nhk')
+export const nhk = new OpenAPIHono()
   .route('/', article)
   .route('/', articles)
   .route('/', category);
