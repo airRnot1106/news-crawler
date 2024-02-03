@@ -1,4 +1,4 @@
-import { YahooCategorySchema } from '@/server/api/yahoo/schema';
+import { YahooCategorySchema } from '@/server/api/v1/yahoo/schema';
 import { createResultSchema } from '@/server/schema';
 
 export const YahooCategoryResultSchema = createResultSchema(

@@ -1,4 +1,4 @@
-import { YahooArticleSchema } from '@/server/api/yahoo/schema';
+import { YahooArticleSchema } from '@/server/api/v1/yahoo/schema';
 import { createResultSchema } from '@/server/schema';
 import { z } from '@hono/zod-openapi';
 

@@ -1,8 +1,8 @@
 import {
   NHKArticleQuerySchema,
   NHKArticleResultSchema,
-} from '@/server/api/nhk/article/schema';
-import { NHKArticleInfo } from '@/server/api/nhk/schema';
+} from '@/server/api/v1/nhk/article/schema';
+import { NHKArticleInfo } from '@/server/api/v1/nhk/schema';
 import { createBrowser } from '@/server/libs/puppeteer';
 import { ErrorSchema } from '@/server/schema';
 import { OpenAPIHono, createRoute } from '@hono/zod-openapi';

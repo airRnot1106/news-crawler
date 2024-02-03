@@ -1,5 +1,5 @@
-import { YahooCategoryResultSchema } from '@/server/api/yahoo/category/schema';
-import { YahooCategory } from '@/server/api/yahoo/schema';
+import { YahooCategoryResultSchema } from '@/server/api/v1/yahoo/category/schema';
+import { YahooCategory } from '@/server/api/v1/yahoo/schema';
 import { createBrowser } from '@/server/libs/puppeteer';
 import { ErrorSchema } from '@/server/schema';
 import { OpenAPIHono, createRoute } from '@hono/zod-openapi';

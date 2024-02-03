@@ -1,5 +1,5 @@
-import { NHKCategoryResultSchema } from '@/server/api/nhk/category/schema';
-import { NHKCategory } from '@/server/api/nhk/schema';
+import { NHKCategoryResultSchema } from '@/server/api/v1/nhk/category/schema';
+import { NHKCategory } from '@/server/api/v1/nhk/schema';
 import { createBrowser } from '@/server/libs/puppeteer';
 import { ErrorSchema } from '@/server/schema';
 import { OpenAPIHono, createRoute } from '@hono/zod-openapi';

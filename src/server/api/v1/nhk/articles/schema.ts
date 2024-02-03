@@ -1,4 +1,4 @@
-import { NHKArticleInfoSchema } from '@/server/api/nhk/schema';
+import { NHKArticleInfoSchema } from '@/server/api/v1/nhk/schema';
 import { createResultSchema } from '@/server/schema';
 import { z } from '@hono/zod-openapi';
 

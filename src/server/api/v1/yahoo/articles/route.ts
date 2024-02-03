@@ -1,8 +1,8 @@
 import {
   YahooArticlesQuerySchema,
   YahooArticlesResultSchema,
-} from '@/server/api/yahoo/articles/schema';
-import { YahooArticleInfo } from '@/server/api/yahoo/schema';
+} from '@/server/api/v1/yahoo/articles/schema';
+import { YahooArticleInfo } from '@/server/api/v1/yahoo/schema';
 import { createBrowser } from '@/server/libs/puppeteer';
 import { ErrorSchema } from '@/server/schema';
 import { convertToISO8601 } from '@/server/util';
