@@ -1,0 +1,417 @@
+{
+  "openapi": "3.0.0",
+  "info": { "title": "News Crawler API", "version": "1.0.0" },
+  "components": {
+    "schemas": {
+      "NHKArticleInfo": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "陸自と米海兵隊 九州沖縄で共同訓練へ 離島防衛を想定"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-02-02T20:54"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "example": "https://www3.nhk.or.jp/news/html/20240202/k10014345361000.html"
+          },
+          "word": {
+            "type": "object",
+            "nullable": true,
+            "properties": {
+              "label": { "type": "string", "example": "防衛省・自衛隊" },
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "example": "https://www3.nhk.or.jp/news/word/0000947.html"
+              }
+            },
+            "required": ["label", "url"]
+          },
+          "thumbnail": {
+            "type": "string",
+            "format": "uri",
+            "example": "https://www3.nhk.or.jp/news/html/20240202/k10014345361000.html"
+          },
+          "source": { "type": "string", "enum": ["nhk"], "example": "nhk" },
+          "media": { "type": "string", "enum": ["nhk"], "example": "nhk" }
+        },
+        "required": [
+          "title",
+          "date",
+          "url",
+          "word",
+          "thumbnail",
+          "source",
+          "media"
+        ]
+      },
+      "ParagraphElement": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["paragraph"],
+            "example": "paragraph"
+          },
+          "text": {
+            "type": "string",
+            "example": "陸上自衛隊は、離島の防衛を想定したアメリカ海兵隊との共同訓練を、今月下旬から九州・沖縄で行うと発表しました。一部の訓練は鹿児島県の沖永良部島で初めて行うとしています。"
+          }
+        },
+        "required": ["type", "text"]
+      },
+      "ImageElement": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string", "enum": ["image"], "example": "image" },
+          "src": {
+            "type": "string",
+            "format": "uri",
+            "example": "https://www3.nhk.or.jp/news/html/20240202/K10014345321_2402021849_0202194223_02_03.jpg"
+          }
+        },
+        "required": ["type", "src"]
+      },
+      "NHKArticle": {
+        "type": "object",
+        "properties": {
+          "info": { "$ref": "#/components/schemas/NHKArticleInfo" },
+          "elements": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                { "$ref": "#/components/schemas/ParagraphElement" },
+                { "$ref": "#/components/schemas/ImageElement" }
+              ]
+            }
+          },
+          "raw": { "type": "string" }
+        },
+        "required": ["info", "elements", "raw"]
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "ok": { "type": "boolean", "enum": [false] },
+          "error": { "type": "string" }
+        },
+        "required": ["ok", "error"]
+      },
+      "NHKCategory": {
+        "type": "object",
+        "properties": {
+          "label": { "type": "string", "example": "社会" },
+          "data_category": { "type": "string", "example": "news-social" },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "example": "https://www3.nhk.or.jp/news/cat01.html"
+          }
+        },
+        "required": ["label", "data_category", "url"]
+      },
+      "YahooArticleInfo": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "大須観音で節分会の豆まき　鬼面が寺宝のため「鬼は外」は禁句　参拝者が「福は内　福は内」と厄除け"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-02-03 03:47"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "example": "https://news.yahoo.co.jp/articles/7262178b4d9f926d04c695ec178c46118723a296"
+          },
+          "thumbnail": {
+            "type": "string",
+            "nullable": true,
+            "format": "uri",
+            "example": "https://newsatcl-pctr.c.yimg.jp/t/amd-img/20240203-90022763-nbnv-000-1-thumb.jpg?pri=l&w=300&h=168&exp=10800"
+          },
+          "source": { "type": "string", "enum": ["yahoo"], "example": "yahoo" },
+          "media": { "type": "string", "example": "メ〜テレ（名古屋テレビ）" }
+        },
+        "required": ["title", "date", "url", "thumbnail", "source", "media"]
+      },
+      "YahooArticle": {
+        "type": "object",
+        "properties": {
+          "info": { "$ref": "#/components/schemas/YahooArticleInfo" },
+          "elements": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                { "$ref": "#/components/schemas/ParagraphElement" },
+                { "$ref": "#/components/schemas/ImageElement" }
+              ]
+            }
+          },
+          "raw": { "type": "string" }
+        },
+        "required": ["info", "elements", "raw"]
+      },
+      "YahooCategory": {
+        "type": "object",
+        "properties": {
+          "label": { "type": "string", "example": "国内" },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "example": "https://news.yahoo.co.jp/categories/domestic"
+          }
+        },
+        "required": ["label", "url"]
+      }
+    },
+    "parameters": {}
+  },
+  "paths": {
+    "/api/v1/nhk/article": {
+      "get": {
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uri",
+              "example": "https://www3.nhk.or.jp/news/html/20240202/k10014345361000.html"
+            },
+            "required": true,
+            "name": "article_url",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "NHK news article",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": { "type": "boolean", "enum": [true] },
+                    "value": { "$ref": "#/components/schemas/NHKArticle" }
+                  },
+                  "required": ["ok", "value"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/nhk/articles": {
+      "get": {
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uri",
+              "example": "https://www3.nhk.or.jp/news/cat01.html"
+            },
+            "required": true,
+            "name": "category_url",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "NHK news articles",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": { "type": "boolean", "enum": [true] },
+                    "value": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/NHKArticleInfo" }
+                    }
+                  },
+                  "required": ["ok", "value"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/nhk/category": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "NHK news categories",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": { "type": "boolean", "enum": [true] },
+                    "value": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/NHKCategory" }
+                    }
+                  },
+                  "required": ["ok", "value"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/yahoo/article": {
+      "get": {
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uri",
+              "example": "https://news.yahoo.co.jp/articles/7262178b4d9f926d04c695ec178c46118723a296"
+            },
+            "required": true,
+            "name": "article_url",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Yahoo news article",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": { "type": "boolean", "enum": [true] },
+                    "value": { "$ref": "#/components/schemas/YahooArticle" }
+                  },
+                  "required": ["ok", "value"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/yahoo/articles": {
+      "get": {
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uri",
+              "example": "https://news.yahoo.co.jp/categories/domestic"
+            },
+            "required": true,
+            "name": "category_url",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Yahoo news articles",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": { "type": "boolean", "enum": [true] },
+                    "value": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/YahooArticleInfo"
+                      }
+                    }
+                  },
+                  "required": ["ok", "value"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/yahoo/category": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Yahoo news categories",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": { "type": "boolean", "enum": [true] },
+                    "value": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/YahooCategory" }
+                    }
+                  },
+                  "required": ["ok", "value"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
